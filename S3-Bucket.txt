@@ -1,0 +1,67 @@
+BUCKET  :-It is a logical container where u can store the data.
+	:-By default 100 buckets create in AWS and if u want increase the buckets upto 1000.
+	:-Capacity of bucket(0kb-5tb)
+	:-An Amazon S3 bucket is a storage container for objects, which can be any type of data, such as images, videos, documents, or any other file format. It is part of Amazon Web Services (AWS) and is a highly scalable, durable, and secure object storage service that can store and retrieve any amount of data from anywhere on the web. S3 buckets are used for a variety of purposes, including data backup, data archiving, content storage and delivery, and application hosting. They are also commonly used as a data source for other AWS services, such as Amazon Glacier, Amazon CloudFront, Amazon Elastic Compute Cloud (EC2), and others. To access S3 buckets, you need to have an AWS account and credentials with the appropriate permissions to access the bucket.
+
+
+
+
+
+OBJECT-	the data which can the store the bucket is per object.
+	the data which can be converted into binary format.
+		
+
+
+Q) can be store Os in s3
+   ans-NO(because OS can't converted into binary format)
+Q)create a html file in local machine and hosted in S3 bucket
+
+
+CREATE BUCKET:-
+	-search S3 and click
+	-create bucket
+	-name(unik name(surya56))
+	-choose AWS resion
+	-Block public access(untick)
+	-accept acknowledgement
+	-click CREATE BUCKET.
+
+Uplod html file:-
+	:-Create html file and write something in file
+	:-upload file
+	:-choose html file
+	:-click upload
+
+Give permission:-
+	:-go to bucket
+		:-properties
+		:-static website hosting 
+		:-click edit(enable)
+		:-index document(choose html file name)
+		:-click save changes
+		
+		:-permission
+		:-bucket policy
+		:-edit
+		:-add new statement
+		:-{
+    		    "Version": "2012-10-17",
+    		    "Statement": [
+        		{
+			    "Sid": " Static Website",
+			    "Effect": "Allow",
+			    "Principal": "*",
+			    "Action": "S3:*",
+			    "Resource": "arn:aws:s3:::demolab56/*"
+			}
+		    ]
+		}
+
+		:-save changes
+
+open on browser:-
+	:-go to your bucket 
+	:-click your html file
+	:-copy the resource link
+	:-pase on browser 
+	:-click ok
