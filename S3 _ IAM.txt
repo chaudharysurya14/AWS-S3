@@ -1,0 +1,157 @@
+Cloud Lab 02
+~~~~~~~~~~~~
+
+Amazon-S3 (Simple Storage Service)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+*It is logical where you can store the data.
+
+*By default--> 100 buckets
+	and incresed upto --> 1000 buckets
+
+Object--> *The data which can store in buckets is called object.
+			(obj--data--binary)
+
+Q1: Can you store OS in S3?
+Ans: No, Because OS cant be connected into binary format.
+
+*The limit of object (Size= Storage capacity)
+		(0 kb to % tb)
+#Create Amazon S3 bucket
+~~~~~~~~~~~~~~~~~~~~~~~~
+*Services--S3--Create bucket
+*bucket name
+*AWS region--By default Global,Select region.
+*Object ownership: If 2-3.. user then ACL enabled.
+		   If single ACL then disabled.
+
+*Block Public Access Setting:
+*Block all public access(unchecked it)
+*Turnig of block
+*Create Bucket
+
+#Upload a fil;e in bucket(in html format)
+Select bucket:- object()
+		-upload -add files
+		-upload 
+		-close.
+*Go to properties--> go Down of S3 bucket.
+Static website hosting;-
+Host type-static
+
+(index.html)
+
+error document
+
+(No change)
+
+[Save Changes]
+
+
+Go to file - to open in broswer - gives error.
+Go permissions(in bucket)
+Bucket policy:
+edit--> policy(it is in json formet)
+*ARN(application reference number)
+
+[Add new statement]
+
+Code::
+~~~~~
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AddCannedAcl",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": [
+                    "arn:aws:iam::111122223333:root",
+                    "arn:aws:iam::444455556666:root"
+                ]
+            },
+            "Action": [
+                "s3:PutObject",
+                "s3:PutObjectAcl"
+            ],
+            "Resource": "arn:aws:s3:::DOC-EXAMPLE-BUCKET/*",
+            "Condition": {
+                "StringEquals": {
+                    "s3:x-amz-acl": [
+                        "public-read"
+                    ]
+                }
+            }
+        }
+    ]
+}
+
+
+
+*Now to Host:-->
+Select file-- Object url-copy- open in brower.
+
+*********************************************************************************************
+
+
+IAM Dashboard:
+~~~~~~~~~~~~~~
+
+*To create Users,Groups & To apply the policy.
+
+*policy--> permissions(read,write,execute)                      [etc/sudoers]
+
+Note:
+adminastrator can not do billing 
+root can do billing (They both have read,write and execute)
+ 
+#create User:* add user-Give name
+~~~~~~~~~~~~~ *Access type--> *Access key(teraform softwere where we can create instance)
+				to programatic access(tick)
+			      *Passward(auto generate/custom generate)
+	       *Then Permissions--> *add user to goup
+				    *Copy permissions form existing user
+				    *Attach existing policies directly(tick)
+				    *AdministratorAccess (tick)
+				    *Next review(tick)
+				    *create user(tick)
+
+[Download access key]
+
+click user then open console http link open in browser...
+
+Customige policy:
+~~~~~~~~~~~~~~~~ *create policy--visual editor/json
+		*service Choose(Ec2/S3/VPC)[By default allow mode selected]
+		*Actions(manual action)
+		*access level[(list),(read),(tagging),(write{Delete (Untick)})
+		*Resorces(Specific to All Resorces)
+		*Next(review)
+		*Name of policy(EC2CustomizPolicyForHPCSA_DHPCAP)
+
+#crete user group:*Create group--user goup name(DHPCSA_HPCAP)
+		   *add user(optional)
+		   *policy name Select(EC2/S3/VPC)
+		   *create group
+		   *User add-- Users(add user {follow above details})
+
+Q1: create a policy for developer? A: create a policy Read/Write for S3 Lmbda exept delete.
+				B: create policy with read EC2 eks and ecr.
+
+Q2: Create policy for QA? A: create a policy for read/write for S3 exept delete.
+			B: crete policy with read for ec3 eks ecr and lambda.
+
+to check : two user one with developr team and second is QA department.	
+
+NOTE:
+~~~~
+When you give a user full access to IAM, there is no limit to the permissions 
+that user can grant to him/herself or others. The user can create new IAM entities 
+(users or roles) and grant those entities full access to all resources in your AWS account.
+When you give a user full access to IAM, you are effectively giving them full access to all resources in your AWS account. 
+This includes access to delete all resources. You should grant these permissions to only trusted administrators, 
+and you should enforce multi-factor authentication (MFA) for these administrators.
+
+
+
+	   
